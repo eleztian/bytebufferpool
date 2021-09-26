@@ -13,7 +13,19 @@ type ByteBuffer struct {
 
 	// B is a byte buffer to use in append-like workloads.
 	// See example code for details.
-	B []byte
+	B   []byte
+	cur int
+}
+
+func (b *ByteBuffer) Read(p []byte) (n int, err error) {
+	if len(b.B) == b.cur {
+		return 0, io.EOF
+	}
+
+	n = copy(p, b.B[b.cur:])
+	b.cur += n
+
+	return n, nil
 }
 
 // Len returns the size of the byte buffer.
@@ -108,4 +120,5 @@ func (b *ByteBuffer) String() string {
 // Reset makes ByteBuffer.B empty.
 func (b *ByteBuffer) Reset() {
 	b.B = b.B[:0]
+	b.cur = 0
 }

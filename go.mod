@@ -1,3 +1,3 @@
-module github.com/valyala/bytebufferpool
+module github.com/eleztian/bytebufferpool
 
 go 1.12
